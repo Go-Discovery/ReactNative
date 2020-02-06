@@ -8,7 +8,6 @@ import Login from '../Screen/Login';
 const defaultOptions = {
   headerStyle: {
     backgroundColor: '#72d6c9',
-    color:'#f4f4f4'
   },
   headerTitleStyle: {
     color: 'white'
@@ -16,7 +15,13 @@ const defaultOptions = {
 };
 const AppNavigator = createStackNavigator({
   Home: {
+    screen: HomeScreen,
+  },
+  Login:{
     screen: Login,
+  },
+  Singin:{
+    screen: SignInScreen,
   }
 }, {
   defaultNavigationOptions: defaultOptions
