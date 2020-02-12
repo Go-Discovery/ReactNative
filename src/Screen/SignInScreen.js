@@ -16,22 +16,144 @@ import {
 
 export default class SignInScreen extends React.Component{
   constructor() {
-    super();
-    this.state={
-      email:'',
-      pass:'',
-      error:''
-    }
+      super();
+      this.inputs = {};
+      this.state = {
+          email: '',
+          pass: '',
+          firstname:'',
+          lastname:'',
+          doublepass:'',
+          isSecure: true,
+          isError: false,
+          error:{
+              email:'',
+              pass: '',
+              firstname:'',
+              lastname:'',
+              doublepass:'',}
+      }
   }
 
+
+    validate = (text) => {
+        console.log(text);
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        if(reg.test(text) === false)
+        {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+
+    _displayPassword = () => {
+        this.setState((prevState) => ({
+            isSecure: !prevState.isSecure
+        }));
+    };
+
+
+
   _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('HomeSCREEN');
-  };
+      //await AsyncStorage.setItem('userToken', 'abc');
+
+      const error = {
+          email: '',
+          pass: '',
+          firstname: '',
+          lastname: '',
+          doublepass:'',
+          isError: false
+      };
+
+      const {
+          email,
+          pass,
+          firstname,
+          lastname,
+          doublepass,
+      } = this.state;
+
+
+      if (!firstname.length) {
+          error.firstName = 'Le prénom du patient doit être rempli.';
+          error.isError = true;
+      }
+      if (!lastname.length) {
+          error.lastName = 'Le nom du patient doit être rempli.';
+          error.isError = true;
+      }
+
+      if (!email.length || !this.validate(email)) {
+          error.email = ' Vide ou Email invalide';
+          error.isError = true;
+      }
+
+      if(!pass.length){
+          error.pass = 'Mot de passe non-valide';
+          error.isError = true;
+      }
+
+      if (pass!=doublepass){
+          error.pass = 'Les mots de passes sont différent'
+      }
+
+
+
+      this.setState({
+          isError: error.isError,
+          error: {
+              firstname: error.firstName,
+              lastname: error.lastName,
+              email : error.email,
+              pass: error.pass
+          }
+      });
+
+  }
+
+    firstNameChangeHandler = (firstname) => {
+        this.setState({ firstname: firstname });
+    };
+    lastNameChangeHandler = (lastname) => {
+        this.setState({ lastname: lastname });
+    };
+    emailChangeHandler = (email) =>{
+        this.setState({
+            email : email
+        });
+    };
+
+    passChangeHandler = (pass) =>{
+        this.setState({
+            pass:pass,
+        });
+    };
+
+    doublepassChangeHandler = (doublepass) =>{
+        this.setState({
+            doublepass: doublepass
+        });
+    };
 
 
     render(): React.ReactElement<any> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         const inputType = "";
+
+        const {
+            email,
+            pass,
+            firstname,
+            lastname,
+            doublepass,
+            isError,
+            error,
+            isSecure
+        } = this.state;
 
         return (
             <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
@@ -40,37 +162,67 @@ export default class SignInScreen extends React.Component{
                         <Text
                             style={styles.loginHeader}
                         >Inscription</Text>
+                        {isError && <Text style={styles.error}> {error.lastname}</Text>}
                         <TextInput
                             placeholder="Nom"
                             type="nom"
                             style={styles.inputFiled}
                             placeholderTextColor='#f4f4f4'
+                            textContentType="name"
+                            returnKeyType="next"
+                            ref={(input) => { this.inputs.lastname= input; }}
+                            onChangeText={this.lastNameChangeHandler}
+                            value={lastname}
                         />
+                        {isError && <Text style={styles.error}> {error.firstname}</Text>}
                         <TextInput
                         placeholder="Prénom"
-                        type="nom"
+                        type="prenom"
                         style={styles.inputFiled}
                         placeholderTextColor='#f4f4f4'
+                        textContentType="name"
+                        returnKeyType="next"
+                        ref={(input) => { this.inputs.firstname = input; }}
+                        onChangeText={this.firstNameChangeHandler}
+                        value={firstname}
                         />
+                        {isError && <Text style={styles.error}> {error.email}</Text>}
                         <TextInput
                             placeholder="Email"
                             type="email"
                             style={styles.inputFiled}
                             placeholderTextColor='#f4f4f4'
+                            textContentType="email"
+                            returnKeyType="next"
+                            ref={(input) => { this.inputs.email = input; }}
+                            onChangeText={this.emailChangeHandler}
+                            value={email}
                         />
+                        {isError && <Text style={styles.error}> {error.pass}</Text>}
                         <TextInput
                             autoCorrect={false}
                             placeholderTextColor='#f4f4f4'
                             style={styles.inputFiled}
                             placeholder="Mot de passe"
-                            secureTextEntry={inputType === "password"}/>
+                            secureTextEntry={isSecure}
+                            textContentType="password"
+                            returnKeyType="next"
+                            ref={(input) => { this.inputs.pass = input; }}
+                            onChangeText={this.passChangeHandler}
+                            value={pass}/>
                         <TextInput
                             autoCorrect={false}
                             placeholderTextColor='#f4f4f4'
                             style={styles.inputFiled}
                             placeholder="Répétition du mot de passe"
-                            secureTextEntry={inputType === "password"}/>
-                        <TouchableOpacity onPress={this._signInAsync()}
+                            secureTextEntry={isSecure}
+                            textContentType="password"
+                            returnKeyType="next"
+                            ref={(input) => { this.inputs.doublepass = input; }}
+                            onChangeText={this.doublepassChangeHandler}
+                            value={doublepass}/>
+
+                        <TouchableOpacity onPress={() => this._signInAsync()}
                                           style={styles.button}
                         >
                             <Text
@@ -135,5 +287,10 @@ const styles = StyleSheet.create({
         margin : 20
 
     },
+    error:{
+        textAlign: 'center',
+        color: 'red',
+        fontWeight: "300",
+    }
 });
 

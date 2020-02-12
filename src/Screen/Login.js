@@ -16,22 +16,92 @@ import {
 export default class Login extends React.Component{
     constructor() {
         super();
+        this.inputs = {};
         this.state={
             email:'',
             pass:'',
-            error:'',
+            isSecure: true,
+            editable: false,
+            error:{
+                email:'',
+                pass:'',
+                isError: false,
+            }
         }
     }
 
 
-    _onPressButton = () =>{
 
+    connection = async () =>{
+
+
+        const error = {
+            email: '',
+            pass: '',
+            isError: false
+        };
+
+        const {
+            email,
+            pass
+        } = this.state;
+
+        if( (!pass.length && !email.length) ||  (!pass.length || !email.length) || (!pass.length && !this.validate(email) || (!pass.length || !this.validate(email)))){
+            error.email= "Les champs ne sont pas valide";
+            error.isError = true;
+        }else{
+
+        }
+
+        this.setState({
+            isError: error.isError,
+            error: {
+                email : error.email,
+                pass: error.pass
+            }
+        });
+
+    };
+
+    validate = (text) => {
+        console.log(text);
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        if(reg.test(text) === false)
+        {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
+
+    emailChangeHandler = (email) =>{
+        this.setState({
+            email : email
+        });
+    };
+
+    passChangeHandler = (pass) =>{
+        this.setState({
+            pass:pass,
+        });
+    };
+
+
 
 
 
     render(): React.ReactElement<any> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         const inputType = "";
+
+        const {
+            email,
+            pass,
+            isError,
+            isEditable,
+            isSecure,
+            error
+        } = this.state;
 
         return (
             <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
@@ -40,19 +110,29 @@ export default class Login extends React.Component{
                     <Text
                         style={styles.loginHeader}
                     >Go Discovery</Text>
+
+                    {isError && <Text style={styles.error}>{error.email}</Text>}
                     <TextInput
                         placeholder="Email"
                         type="email"
                         style={styles.inputFiled}
                         placeholderTextColor='#f4f4f4'
-                    />
+                        onChangeText={this.emailChangeHandler}
+                        ref={(input) => { this.inputs.email= input; }}
+                        value={email}
+                   />
+                    {isError && <Text style={styles.error}>{error.pass}</Text>}
                     <TextInput
                         autoCorrect={false}
                         placeholderTextColor='#f4f4f4'
                         style={styles.inputFiled}
                         placeholder="Mot de passe"
-                        secureTextEntry={inputType === "password"}/>
-                    <TouchableOpacity onPress={this._onPressButton}
+                        secureTextEntry={isSecure}
+                        onChangeText={this.passChangeHandler}
+                        ref={(input) => { this.inputs.pass= input; }}
+                        value={pass}
+                    />
+                    <TouchableOpacity onPress={this.connection}
                                       style={styles.button}
                     >
                         <Text
@@ -118,4 +198,9 @@ loginHeader: {
         margin : 20
 
     },
+    error:{
+        textAlign: 'center',
+        color: 'red',
+        fontWeight: "300",
+    }
 });
