@@ -6,35 +6,40 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView
 } from 'react-native';
+import theme from '../Style/theme'
 
+import 'react-native-gesture-handler';
+export default class HomeScreen extends React.Component{
+  render(){
+    const {navigate} = this.props.navigation;
+  return (
 
-// eslint-disable-next-line react/prefer-stateless-function
-export default class HomeScreen extends React.Component {
-  render() {
-    const {navigate} =this.props.navigation;
-    return (
+      <KeyboardAvoidingView style={theme.wrapper} behavior="padding">
 
-        <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
-        <View style={styles.container}>
+        <View style={theme.container}>
           <Text style={styles.loginHeader}>Bienvenue sur Go Discovery</Text>
-            <TouchableOpacity onPress={()=>
-              navigate('Singin')
-            } style={styles.button}>
-               <Text style={styles.text}> S'inscrire  </Text>
-            </TouchableOpacity>
+          <Text style={theme.text}>Pour utiliser les fonctionnalités sociales relier à l'application vous devez avoir préalablement un compte sur la platforme.</Text>
+          <TouchableOpacity onPress={()=>
+          navigate('SignIn')
+          } style={theme.button}>
+            <Text style={theme.textButton}> S'inscrire  </Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-                onPress={() => navigate('Login')}
-                style={styles.button}
-            >
-              <Text style={styles.text}> Se connecter </Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+              onPress={() => navigate('Login')}
+              style={theme.button}
+          >
+            <Text style={theme.textButton}> Se connecter </Text>
+          </TouchableOpacity>
 
         </View>
-       </KeyboardAvoidingView>
-    );
-  }
+      </KeyboardAvoidingView>
+  )};
+
 }
+
+// eslint-disable-next-line react/prefer-stateless-function
+
 
 
 const styles = StyleSheet.create({

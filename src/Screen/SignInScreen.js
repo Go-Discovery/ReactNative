@@ -13,6 +13,7 @@ import {
     AsyncStorage
 } from 'react-native';
 
+import 'react-native-gesture-handler';
 
 export default class SignInScreen extends React.Component{
   constructor() {

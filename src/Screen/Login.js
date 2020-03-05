@@ -11,8 +11,8 @@ import {
     TouchableOpacity,
 
 } from 'react-native';
-
-
+import 'react-native-gesture-handler';
+import theme from '../Style/theme'
 export default class Login extends React.Component{
     constructor() {
         super();
@@ -50,6 +50,17 @@ export default class Login extends React.Component{
             error.email= "Les champs ne sont pas valide";
             error.isError = true;
         }else{
+            fetch('',{
+
+                }).then((response) => response.json())
+                .then((responseJson)=>{
+                    alert(responseJson)
+                })
+                .catch((error)=>{
+                    console.log(error)
+                })
+
+
 
         }
 
@@ -104,28 +115,28 @@ export default class Login extends React.Component{
         } = this.state;
 
         return (
-            <KeyboardAvoidingView style={styles.wrapper} behavior="padding">
-            <View style={styles.container}>
+            <KeyboardAvoidingView style={theme.wrapper} behavior="padding">
+            <View style={theme.container}>
                 <ScrollView>
                     <Text
-                        style={styles.loginHeader}
+                        style={theme.loginHeader}
                     >Go Discovery</Text>
 
-                    {isError && <Text style={styles.error}>{error.email}</Text>}
+                    {isError && <Text style={theme.error}>{error.email}</Text>}
                     <TextInput
                         placeholder="Email"
                         type="email"
-                        style={styles.inputFiled}
+                        style={theme.inputFiled}
                         placeholderTextColor='#f4f4f4'
                         onChangeText={this.emailChangeHandler}
                         ref={(input) => { this.inputs.email= input; }}
                         value={email}
                    />
-                    {isError && <Text style={styles.error}>{error.pass}</Text>}
+                    {isError && <Text style={theme.error}>{error.pass}</Text>}
                     <TextInput
                         autoCorrect={false}
                         placeholderTextColor='#f4f4f4'
-                        style={styles.inputFiled}
+                        style={theme.inputFiled}
                         placeholder="Mot de passe"
                         secureTextEntry={isSecure}
                         onChangeText={this.passChangeHandler}
@@ -133,13 +144,14 @@ export default class Login extends React.Component{
                         value={pass}
                     />
                     <TouchableOpacity onPress={this.connection}
-                                      style={styles.button}
+                                      style={theme.button}
                     >
                         <Text
-                        style={styles.text}
+                        style={theme.textButton}
                         > Connection </Text>
 
                     </TouchableOpacity>
+                    <Text style={theme.littleText}> Mot de passe oublié ? </Text>
                 </ScrollView>
             </View>
             </KeyboardAvoidingView>
