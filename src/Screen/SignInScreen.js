@@ -81,11 +81,11 @@ export default class SignInScreen extends React.Component{
 
 
       if (!firstname.length) {
-          error.firstName = 'Le prénom du patient doit être rempli.';
+          error.firstName = 'Le prénom doit être rempli.';
           error.isError = true;
       }
       if (!lastname.length) {
-          error.lastName = 'Le nom du patient doit être rempli.';
+          error.lastName = 'Le nom doit être rempli.';
           error.isError = true;
       }
 
@@ -114,6 +114,8 @@ export default class SignInScreen extends React.Component{
               pass: error.pass
           }
       });
+
+
 
   }
 
@@ -242,7 +244,7 @@ const styles = StyleSheet.create({
     wrapper: {
         display: "flex",
         flex: 1,
-        backgroundColor: '#72d6c9'
+        backgroundColor: '#694fad'
     },
     scrollViewWrapper: {
         marginTop: 70,
@@ -260,14 +262,12 @@ const styles = StyleSheet.create({
         color: '#f4f4f4',
         fontWeight: "300",
         marginBottom: 40,
-        flex : 1,
         padding : 20
     },
-    text: {
+    textButton: {
         textAlign: 'center',
-        color: '#f4f4f4',
+        color: '#694fad',
         fontWeight: "300",
-        flex : 1,
     },
     inputFiled: {
         borderBottomWidth: 1,
@@ -283,15 +283,34 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        backgroundColor: '#df7599',
         padding : 10,
         margin : 20
 
+    },
+    themeFontColor: {
+        color: '#f1faee'
+    },
+    text:{
+        textAlign: 'center',
+        fontSize: 18,
+        color: '#f4f4f4',
+        fontWeight: "300",
+        marginBottom: 40,
+        padding : 20
     },
     error:{
         textAlign: 'center',
         color: 'red',
         fontWeight: "300",
+    },
+    littleText:{
+        textAlign: 'center',
+        fontSize: 14,
+        color: '#f4f4f4',
+        fontWeight: "300",
+        marginBottom: 10,
+        padding : 10,
     }
+
 });
 

@@ -5,27 +5,23 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../Screen/HomeScreen';
 import Login from '../Screen/Login';
 import SignInScreen from '../Screen/SignInScreen';
-import ProfilScreen from '../Screen/ProfilScreen';
 import MapsScreen from '../Screen/MapsScreen'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import theme from '../Style/theme';
-import {
-    Image
-} from 'react-native'
-
+import RouteScreen from '../Screen/RouteScreen';
+import ProfilScreen from '../Screen/ProfilScreen';
+import {MaterialCommunityIcons} from 'react-native-vector-icons';
+import {Image} from 'react-native'
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
-const TabBarIcon = (focused: boolean): ReactElement => {
+
+function LogoTitle() {
     return (
         <Image
-            style={{
-                width: focused ? 24 : 18,
-                height: focused ? 24 : 18,
-            }}
-            source={IC_MASK}
+            style={{ width: 50, height: 50 }}
+            source={require('../Style/Logo.png')}
         />
     );
-};
+}
 
 const HomeStack = () => (
         <Stack.Navigator initialRouteName={'Home'}
@@ -35,7 +31,7 @@ const HomeStack = () => (
                                  color: 'white'
                              },
                              headerStyle: {
-                                 backgroundColor: '#457B9D'
+                                 backgroundColor: '#694fad'
                              }
                          }}>
                     <Stack.Screen name='Accueil' component={HomeScreen}/>
@@ -45,8 +41,10 @@ const HomeStack = () => (
                                    */
                         />
                     <Stack.Screen name='SignIn' component={SignInScreen}/>
+                    <Stack.Screen name='ProfilScreen' component={ProfilScreen}/>
         </Stack.Navigator>
 );
+
 /*
 function MainStackNavigator(): React.ReactElement {
     this.state = {
@@ -79,9 +77,38 @@ function MainStackNavigator(): React.ReactElement {
 
  */
 const TabsScreen = () => (
-    <Tab.Navigator>
-        <Tab.Screen name='Carte' component={MapsScreen}/>
-        <Tab.Screen name='Profil' component={HomeStack}/>
+    <Tab.Navigator
+        barStyle={{ backgroundColor: '#694fad' }}
+    >
+        <Tab.Screen name='Accueil' component={RouteScreen}
+                    barStyle={{ backgroundColor: '#694fad' }}
+                    options={{
+                        tabBarIcon: ({  }) => (
+                            <Image  source={require('../Style/home.png')}
+                            />
+                        ),
+                    }}
+        />
+        <Tab.Screen name='Carte' component={MapsScreen}
+                    initialRouteName="Carte"
+                    barStyle={{ backgroundColor: '#694fad' }}
+                    options={{
+                        tabBarIcon: ({  }) => (
+                            <Image  source={require('../Style/location.png')}
+                            />
+                        ),
+                    }}
+        />
+        <Tab.Screen name='Profil' component={HomeStack}
+                    barStyle={{ backgroundColor: '#694fad' }}
+                    options={{
+                        tabBarIcon: ({  }) => (
+                            <Image  source={require('../Style/user.png')}
+                            />
+                        ),
+
+                    }}
+        />
     </Tab.Navigator>
 );
 
@@ -90,24 +117,16 @@ const TabsScreen = () => (
 const RootStack = createStackNavigator();
 const RootStackScreen = (userToken) =>(
     <RootStack.Navigator headerMode="none">
-            <RootStack.Screen
-                name="Auth"
-                component={TabsScreen}
-                options={{
-                    animationEnabled: false
-                }}
-            />
+        <RootStack.Screen
+            name="Auth"
+            component={TabsScreen}
+            options={{
+                animationEnabled: false
+            }}
+        />
     </RootStack.Navigator>
 );
 
-const defaultOptions = {
-  headerStyle: {
-    backgroundColor: '#72d6c9',
-  },
-  headerTitleStyle: {
-    color: 'white'
-  },
-};
 
 export default () => {
     /*

@@ -7,7 +7,7 @@ const theme = StyleSheet.create({
     wrapper: {
         display: "flex",
         flex: 1,
-        backgroundColor: '#457B9D'
+        backgroundColor: '#694fad'
     },
     scrollViewWrapper: {
         marginTop: 70,
@@ -29,7 +29,7 @@ const theme = StyleSheet.create({
     },
     textButton: {
         textAlign: 'center',
-        color: '#457B9D',
+        color: '#694fad',
         fontWeight: "300",
     },
     inputFiled: {

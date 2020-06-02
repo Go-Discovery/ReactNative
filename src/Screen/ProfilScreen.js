@@ -12,7 +12,7 @@ export default class ProfilScreen extends React.Component{
         return (
             <View>
                 <Text>
-                    Connecté !
+                    Bienvenue Antoine !
                 </Text>
             </View>
         )

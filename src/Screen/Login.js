@@ -9,7 +9,6 @@ import {
     ScrollView,
     StyleSheet,
     TouchableOpacity,
-
 } from 'react-native';
 import 'react-native-gesture-handler';
 import theme from '../Style/theme'

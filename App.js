@@ -14,4 +14,5 @@ import { NavigationContainer } from '@react-navigation/native';
 const App = () => (
     <Navigation/>
 );
-export default App;
+
+export default App

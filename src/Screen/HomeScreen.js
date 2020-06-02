@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+    Image
 } from 'react-native';
 import theme from '../Style/theme'
 
@@ -18,7 +19,9 @@ export default class HomeScreen extends React.Component{
 
         <View style={theme.container}>
           <Text style={styles.loginHeader}>Bienvenue sur Go Discovery</Text>
+
           <Text style={theme.text}>Pour utiliser les fonctionnalités sociales relier à l'application vous devez avoir préalablement un compte sur la platforme.</Text>
+         <Image style={styles.image} source={require('../Style/Logo.png')}/>
           <TouchableOpacity onPress={()=>
           navigate('SignIn')
           } style={theme.button}>
@@ -90,6 +93,9 @@ const styles = StyleSheet.create({
     margin : 20
 
   },
+  image:{
+    width: 200,
+    height:200
+  }
 });
-
 
